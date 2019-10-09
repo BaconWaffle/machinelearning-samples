@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.ML;
-using SentimentRazorML.Model.DataModels;
+using SentimentRazorML.Model;
 
 namespace SentimentAnalysisRazorPages.Pages
 {
@@ -25,12 +22,11 @@ namespace SentimentAnalysisRazorPages.Pages
 
         public IActionResult OnGetAnalyzeSentiment([FromQuery] string text)
         {
-            var input = new ModelInput { Comment = text };
+            if (String.IsNullOrEmpty(text)) return Content("Neutral");
+            var input = new ModelInput { SentimentText = text };
             var prediction = _predictionEnginePool.Predict(input);
-            var sentiment = Convert.ToBoolean(prediction.Prediction) ? "Positive" : "Negative";
+            var sentiment = Convert.ToBoolean(prediction.Prediction) ? "Toxic" : "Not Toxic";
             return Content(sentiment);
-            
-            //return Content(percentage.ToString("0.0"));
         }
     }
 }
