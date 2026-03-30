@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ML;
 using Microsoft.ML;
 using Serilog;
+using System;
 
 namespace eShopDashboard
 {
@@ -29,11 +30,15 @@ namespace eShopDashboard
         {
             services.AddDbContext<CatalogContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(20).TotalSeconds)
+                                    ));
 
             services.AddDbContext<OrderingContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(20).TotalSeconds)
+                                    ));
 
             services.AddScoped<IOrderingQueries, OrderingQueries>();
             services.AddScoped<ICatalogQueries, CatalogQueries>();
@@ -89,11 +94,14 @@ namespace eShopDashboard
 
             var pathBase = Configuration["PATH_BASE"];
 
-            app.UseSwagger()
-              .UseSwaggerUI(c =>
-              {
-                  c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "eShopDashboard.API V1");
-              });
+            app.UseSwagger();
+            if (env.IsDevelopment())
+            {
+                app.UseSwaggerUI(c => // UseSwaggerUI is called only in Development.
+                {
+                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "eShopDashboard.API V1");
+                });
+            }
         }
     }
 }

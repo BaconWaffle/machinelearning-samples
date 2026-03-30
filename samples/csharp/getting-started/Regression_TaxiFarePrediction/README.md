@@ -2,7 +2,7 @@
 
 | ML.NET version | API type          | Status                        | App Type    | Data type | Scenario            | ML Task                   | Algorithms                  |
 |----------------|-------------------|-------------------------------|-------------|-----------|---------------------|---------------------------|-----------------------------|
-| v1.3.1           | Dynamic API | Up-to-date | Console app | .csv files | Price prediction | Regression | Sdca Regression |
+| v1.4           | Dynamic API | Up-to-date | Console app | .csv files | Price prediction | Regression | Sdca Regression |
 
 In this introductory sample, you'll see how to use [ML.NET](https://www.microsoft.com/net/learn/apps/machine-learning-and-ai/ml-dotnet) to predict taxi fares. In the world of machine learning, this type of prediction is known as **regression**.
 
@@ -21,7 +21,7 @@ and predicts the fare of the ride.
 
 ## ML task - Regression
 The generalized problem of **regression** is to predict some continuous value for given parameters, for example:
-* predict a house prise based on number of rooms, location, year built, etc.
+* predict a house price based on number of rooms, location, year built, etc.
 * predict a car fuel consumption based on fuel type and car parameters.
 * predict a time estimate for fixing an issue based on issue attributes.
 
